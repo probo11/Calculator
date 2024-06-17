@@ -1,0 +1,97 @@
+﻿<div class="container-fluid calc">
+    <div class=""></div>
+    <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-sm-12 calcHeigt">
+        <span class="border border-dark p-4 d-inline-block col-md-8 col-12 col-sm-10">
+            <div class="row">
+                <div class="col input-group input-group-lg">
+                    <div class="col-1">
+                        <button class="btn h-100 w-100 btn-outline-dark" (click)="showData()">H</button>
+                    </div>
+                    <input type="text" name="output" id="output" class="form-control" value="{{output}}" disabled>
+                    
+                    <div class="col-1">
+                        <button class="btn h-100 w-100 btn-outline-dark" (click)="clear()">C</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row px-0">
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add('(')">(</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(')')">)</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add('^')">^</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="backspace()"><-</button>
+                </div>
+            </div>
+            <div class="row px-0">
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(7)">7</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(8)">8</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(9)">9</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add('/')">/</button>
+                </div>
+            </div>
+            <div class="row px-0">
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(4)">4</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(5)">5</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(6)">6</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add('*')">*</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(1)">1</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(2)">2</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(3)">3</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add('-')">-</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add(0)">0</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="add('.')">.</button>
+                </div>
+                <div class="col">
+                    <button class="btn w-100 btn-outline-dark" (click)="calculate()">=</button>
+                </div>
+                <div class="col">
+                    <button value="plus" class="btn w-100 btn-outline-dark" (click)="add('+')">+</button>
+                </div>
+            </div>
+        </span>
+        <span class="col-md-8 col-12 col-sm-10 col-xs d-inline-block history">
+            <div *ngIf="show">
+                <h4>history</h4>
+                <p class="text-start px-2 h5" *ngFor="let item of history">{{item}}</p>
+            </div>
+        </span>
+    </div>
+    
+    <div class=""></div>
+</div>
