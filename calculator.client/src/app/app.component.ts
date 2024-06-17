@@ -21,12 +21,11 @@ export class AppComponent implements OnInit {
     this.getHistory();
   }
 
-  add(number: any) {
-    if (this.output === "0" || this.output == "∞" || this.output == "Invalid input") {
-      this.output = number.toString();
-    } else {
-      this.output += number.toString();
-    }
+  add(input: any) {
+    if (this.output === "0" || this.output == "∞" || this.output == "Invalid input" || this.output == "NaN")
+      this.output = "0" + input.toString();
+    else
+      this.output += input.toString();
   }
 
   calculate() {
@@ -45,7 +44,10 @@ export class AppComponent implements OnInit {
   }
 
   backspace() {
-    this.output = this.output.substring(0, this.output.length-1)
+    if (this.output == "Invalid input") 
+      this.output = "0"
+    else
+      this.output = this.output.substring(0, this.output.length-1)
   }
 
   getHistory() {

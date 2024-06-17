@@ -16,11 +16,15 @@ namespace Calculator.Server.Controllers
         [HttpGet(Name = "GetCalculator")]
         public IEnumerable<string> Get(string calculation)
         {
+            if (calculation == "Invalid input")
+            {
+                return ["Invalid input"];
+            }
             string[] operators = { "^", "/", "*", "-", "+" };
 
             List<string> tokens = PrepareTokens(calculation);
             Queue<string> shunting = ShuntingAlgorithm(tokens, operators);
-            if (shunting.Peek() == "Invalid input")
+            if (shunting.Peek() == "Invalid input" || shunting.Count == 0)
                 return ["Invalid input"];
             string calculatedOutput = ReturnOutputCalculation(shunting, operators);
             history.Add(calculation + " = " + calculatedOutput);
@@ -64,6 +68,10 @@ namespace Calculator.Server.Controllers
                 {
                     if (temp.Length > 0)
                         calculationNumbers.Add(temp);
+                    if (calculation[i] == '(' && !"^/*-+()".Contains(calculation[i - 1]))
+                    {
+                        calculationNumbers.Add("*");
+                    }
                     calculationNumbers.Add(calculation[i].ToString());
                     temp = "";
                 }
@@ -143,6 +151,7 @@ namespace Calculator.Server.Controllers
             List<string> newOutput = [.. output];
             while (newOutput.Count > 1)
             {
+
                 if (operators.Contains(newOutput[j]))
                 {
                     op = newOutput[j];
