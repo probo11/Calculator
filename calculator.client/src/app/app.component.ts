@@ -21,11 +21,16 @@ export class AppComponent implements OnInit {
     this.getHistory();
   }
 
-  add(input: any) {
-    if (this.output === "0" || this.output == "∞" || this.output == "Invalid input" || this.output == "NaN")
-      this.output = "0" + input.toString();
-    else
-      this.output += input.toString();
+  add(input: any, str?: string) {
+    if (str != "history") {
+      if (this.output === "0" || this.output == "∞" || this.output == "Invalid input" || this.output == "NaN")
+        this.output = input.toString();
+      else
+        this.output += input.toString();
+    } else {
+      this.output = input.split('=')[0].trim()
+    }
+    
   }
 
   calculate() {

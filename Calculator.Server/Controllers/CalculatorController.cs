@@ -17,15 +17,16 @@ namespace Calculator.Server.Controllers
         public IEnumerable<string> Get(string calculation)
         {
             if (calculation == "Invalid input")
-            {
                 return ["Invalid input"];
-            }
+
             string[] operators = { "^", "/", "*", "-", "+" };
 
             List<string> tokens = PrepareTokens(calculation);
             Queue<string> shunting = ShuntingAlgorithm(tokens, operators);
+
             if (shunting.Peek() == "Invalid input" || shunting.Count == 0)
                 return ["Invalid input"];
+
             string calculatedOutput = ReturnOutputCalculation(shunting, operators);
             history.Add(calculation + " = " + calculatedOutput);
 
@@ -36,7 +37,7 @@ namespace Calculator.Server.Controllers
         [Route("/history")]
         public IEnumerable<string> GetHistory()
         {
-            return history;
+            return GetReversedList(history).Take<string>(6);
         }
 
         [HttpGet]
@@ -63,11 +64,12 @@ namespace Calculator.Server.Controllers
                 else if (!"^/*-+()".Contains(calculation[i]))
                 {
                     temp += calculation[i];
-                }
+                } //if item is operator or ()
                 else
                 {
                     if (temp.Length > 0)
                         calculationNumbers.Add(temp);
+                    // if ( is used without * before it
                     if (calculation[i] == '(' && !"^/*-+()".Contains(calculation[i - 1]))
                     {
                         calculationNumbers.Add("*");
@@ -151,24 +153,15 @@ namespace Calculator.Server.Controllers
             List<string> newOutput = [.. output];
             while (newOutput.Count > 1)
             {
-
                 if (operators.Contains(newOutput[j]))
                 {
                     op = newOutput[j];
                     newOutput.RemoveAt(j);
                     try
                     {
+                        // gets the 2 items before the operator
                         num1 = double.Parse(newOutput[j - 1]);
                         newOutput.RemoveAt(j - 1);
-                    }
-                    catch (Exception)
-                    {
-                        return "Invalid input";
-                        throw;
-                    }
-
-                    try
-                    {
                         num2 = double.Parse(newOutput[j - 2]);
                         newOutput.RemoveAt(j - 2);
                     }
@@ -182,7 +175,8 @@ namespace Calculator.Server.Controllers
                 }
                 j++;
             }
-            return newOutput[0];
+            // limits output to 4 numbers after decimal
+            return Math.Round(double.Parse(newOutput[0]), 4).ToString();
         }
 
         double Calculations(string s, double n1, double n2)
@@ -223,6 +217,14 @@ namespace Calculator.Server.Controllers
                 return "left";
             else
                 return "null";
+        }
+
+        List<string> GetReversedList(List<string> list)
+        {
+            List<string> newList = new();
+            newList = list;
+            newList.Reverse();
+            return newList; 
         }
     }
 }
